@@ -8,8 +8,8 @@ static void (*my_update_mapping_prot)(phys_addr_t phys, unsigned long virt, phys
 static unsigned long start_rodata, end_rodata;
 #define section_size  (end_rodata - start_rodata)
 
-#define PRD_MDOE_V1 0 /* via set_memory_ro/set_memory_rw */
-#define PRD_MODE_V2 1 /* via update_mapping_prot */
+#define PRD_MDOE_V1 0 /* via set_memory_ro/set_memory_rw (死机) */
+#define PRD_MODE_V2 1 /* via update_mapping_prot （死机）*/
 #define PRD_MODE_V3 2 /* via hack pte */
 
 static struct vm_struct* (*my_find_vm_area)(const void* addr);

@@ -162,8 +162,6 @@ int protect_rodata_memory(int mode, int nr) {
         }
         pte_t pte;
         pte = READ_ONCE(*ptep);
-        //清除pte的可读属性位
-        //设置pte的可写属性位
         pte = pte_wrprotect(pte);
         //把pte页表项写入硬件页表钟
         my_set_pte_at(init_mm_ptr, addr, ptep, pte);

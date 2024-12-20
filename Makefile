@@ -7,6 +7,7 @@ $(MODULE)-objs += mydaat.o
 $(MODULE)-objs += mmuhack.o
 $(MODULE)-objs += kallsyms.o
 $(MODULE)-objs += kprobe_all.o
+$(MODULE)-objs += log.o
 
 all:
 	make -C $(KDIR) EXTRA_CGLAGS=-fno-pic M=$(PWD) modules

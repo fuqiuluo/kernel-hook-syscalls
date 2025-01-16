@@ -4,7 +4,6 @@
 
 #include "kallsyms.h"
 #include <linux/kprobes.h>
-#include <linux/kallsyms.h>
 #include <linux/version.h>
 
 uintptr_t *syscall_table;

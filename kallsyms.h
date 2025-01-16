@@ -5,8 +5,10 @@
 #ifndef DAAT_KALLSYMS_H
 #define DAAT_KALLSYMS_H
 
-unsigned long my_kallsyms_lookup_name(const char* symbol_name);
+#include <linux/types.h>
 
-unsigned long * find_syscall_table(void);
+uintptr_t my_kallsyms_lookup_name(const char* symbol_name);
+
+uintptr_t* find_syscall_table(void);
 
 #endif //DAAT_KALLSYMS_H

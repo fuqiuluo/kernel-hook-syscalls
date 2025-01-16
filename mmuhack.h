@@ -4,23 +4,30 @@
 #include <asm/pgtable.h>
 
 static struct mm_struct *init_mm_ptr = NULL;
-static void (*my_update_mapping_prot)(phys_addr_t phys, unsigned long virt, phys_addr_t size, pgprot_t prot);
-static unsigned long start_rodata, end_rodata;
+static void (*my_update_mapping_prot)(phys_addr_t phys, uintptr_t virt, phys_addr_t size, pgprot_t prot);
+static uintptr_t start_rodata, end_rodata;
 #define section_size  (end_rodata - start_rodata)
 
-#define PRD_MDOE_V1 0 /* via set_memory_ro/set_memory_rw (死机) */
-#define PRD_MODE_V2 1 /* via update_mapping_prot （死机）*/
+#define TAKE_STOP_MACHINE_FOR_CHANGED_RODATA_PERMISSION 0
+
+/**
+ * These two modes do not fix the extra PTE FLAGS,
+ * and higher version kernels may cause kernel crashes
+ */
+#define PRD_MODE_V1 0 /* via set_memory_ro/set_memory_rw */
+#define PRD_MODE_V2 1 /* via update_mapping_prot */
+
 #define PRD_MODE_V3 2 /* via hack pte */
 
 static struct vm_struct* (*my_find_vm_area)(const void* addr);
-static int (*my_set_memory_rw)(unsigned long addr, int num_pages);
-static int (*my_set_memory_ro)(unsigned long addr, int num_pages);
+static s32 (*my_set_memory_rw)(uintptr_t addr, s32 num_pages);
+static s32 (*my_set_memory_ro)(uintptr_t addr, s32 num_pages);
 
-extern int init_memhack(void);
+extern s32 init_memhack(void);
 extern pte_t *page_from_virt(uintptr_t addr);
 
-extern int protect_rodata_memory(int mode, int nr);
+extern s32 protect_rodata_memory(s32 mode, u32 nr);
 
-extern int unprotect_rodata_memory(int mode, int nr);
+extern s32 unprotect_rodata_memory(s32 mode, u32 nr);
 
 #endif //DAAT_MMUHACK_H
